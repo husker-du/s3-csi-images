@@ -1,0 +1,38 @@
+{{- with .Values.persistentVolume }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .name | quote }}
+spec:
+  capacity:
+    storage: {{ $.Values.persistence.storage | quote }}
+  persistentVolumeReclaimPolicy: {{ .reclaimPolicy | default "Retain" | quote }}
+  accessModes:
+    {{- toYaml $.Values.persistence.accessModes | nindent 4 }}
+  {{- if .storageClassName }}
+  storageClassName: {{ $.Values.persistence.storageClassName | default "" | quote }}
+  {{- end }}
+  # To ensure no other PVCs can claim this PV
+  claimRef:
+    # Namespace is required even though it's in "default" namespace
+    namespace: {{ $.Release.Namespace | default "default" | quote }}
+    name: {{ $.Values.persistentVolumeClaim.name | quote }}
+  mountOptions:
+    {{- toYaml .mountOptions | nindent 4 }}
+  {{- with .csi }}
+  csi:
+    driver: s3.csi.aws.com
+    volumeHandle: s3-csi-driver-volume # Must be unique
+    volumeAttributes:
+      bucketName: {{ .bucketName | quote }}
+  {{- end }}
+  {{- with .hostPath }}
+  hostPath:
+    path: {{ .path | quote }}
+  {{- end }}
+  {{- with .awsElasticBlockStore }}
+  awsElasticBlockStore:
+    volumeID: {{ .volumeID | quote }}
+    fsType: {{ .fsType | quote }}
+  {{- end }}
+{{- end }}

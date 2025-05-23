@@ -1,0 +1,53 @@
+fullnameOverride: s3-csi-images
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: 1.28-alpine
+serviceAccount:
+  create: false
+service:
+  pòrt: 80
+ingress:
+  enabled: true
+  annotations:
+  className: nginx
+  hosts:
+  - host: app.images.com
+    paths:
+    - path: /
+      pathType: Prefix
+nodeSelector:
+  kubernetes.io/arch: amd64
+volumes:
+  - name: &imagesVolume images-storage
+    persistentVolumeClaim:
+      claimName: &claimName s3-pvc
+  - name: &nginxConfVolume nginx-conf-volume
+    configMap:
+      name: nginx-conf
+      items:
+      - key: nginx.conf
+        path: default.conf
+volumeMounts:
+  - name: *imagesVolume
+    mountPath: /usr/share/nginx/html/images
+  - name: *nginxConfVolume
+    mountPath: /etc/nginx/conf.d
+persistence:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  storage: 20Gi
+persistentVolume:
+  name: s3-pv
+  storage: 20Gi
+  reclaimPolicy: Retain
+  mountOptions:
+    - read-only
+    - allow-other
+    - region eu-west-1
+    - prefix images/
+  csi:
+    bucketName: ${bucket_id}
+persistentVolumeClaim:
+  name: *claimName

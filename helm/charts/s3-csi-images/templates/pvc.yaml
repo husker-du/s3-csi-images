@@ -1,0 +1,15 @@
+{{- with .Values.persistentVolumeClaim }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name | quote }}
+  namespace: {{ $.Release.Namespace | default "default" | quote }}
+spec:
+  accessModes:
+    {{- toYaml $.Values.persistence.accessModes | nindent 4 }}
+  storageClassName: {{ $.Values.persistence.storageClassName | default "" | quote }} # Required for static provisioning
+  resources:
+    requests:
+      storage: {{ $.Values.persistence.storage | quote }}
+  volumeName: {{ $.Values.persistentVolume.name | quote }}
+{{- end }}

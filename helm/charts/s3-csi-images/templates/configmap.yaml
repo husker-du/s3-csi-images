@@ -1,0 +1,10 @@
+{{ range $path, $_ :=  .Files.Glob  "files/**" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ base $path | replace "." "-" | lower | quote }}
+  namespace: {{ $.Release.Namespace | default "default" | quote }}
+data: 
+{{ ($.Files.Glob ($path)).AsConfig | indent 2 }}
+---
+{{- end }}
