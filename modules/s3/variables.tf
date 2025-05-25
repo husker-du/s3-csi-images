@@ -16,15 +16,6 @@ variable "acl" {
   default     = "private"
 }
 
-##############################################################
-# Module S3 VPC endpoint
-##############################################################
-variable "enable_s3_vpce" {
-  description = "Enable a gateway endpoint to access the S3 bucket"
-  type        = bool
-  default     = false
-}
-
 #############################################################
 # Dependency variables from VPC module
 #############################################################
@@ -33,7 +24,12 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "private_rtb_ids" {
+variable "private_route_table_ids" {
   description = "The ID of the route table associated to private subnets"
   type        = list(string)
+}
+
+variable "vpce_s3_id" {
+  description = "The ID of the gateway vpc endpoint for S3 service"
+  type        = string
 }

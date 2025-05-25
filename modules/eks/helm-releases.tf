@@ -32,6 +32,7 @@ module "helm_releases" {
   s3_csi_images_version      = var.s3_csi_images_version
   s3_csi_images_wait         = var.s3_csi_images_wait
   s3_csi_bucket_id           = var.s3_csi_bucket_id
+  region                     = var.region
 
   depends_on = [
     module.eks

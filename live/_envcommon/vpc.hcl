@@ -18,6 +18,16 @@ locals {
 }
 
 inputs = {
-  region   = local.region_vars.locals.aws_region
-  vpc_cidr = "10.0.0.0/16"
+  region         = local.region_vars.locals.aws_region
+  vpc_cidr       = "10.10.0.0/16"
+  private_prefix = 22
+  public_prefix  = 22
+  intra_prefix   = 22
+
+  # Interface vpc endpoints submodule
+  enable_vpc_endpoints = true
+  vpc_endpoints = {
+    Gateway   = ["s3"]
+    Interface = ["ecr.dkr", "ecr.api"]
+  }
 }

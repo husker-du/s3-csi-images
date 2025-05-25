@@ -32,8 +32,5 @@ terraform {
 # For production, we want to specify bigger instance classes and storage, so we specify override parameters here. These
 # inputs get merged with the common inputs from the root and the envcommon terragrunt.hcl
 inputs = {
-  vpc_cidr       = "10.1.0.0/16"
-  private_prefix = 22
-  public_prefix  = 22
-  intra_prefix   = 22
+
 }

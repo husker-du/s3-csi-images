@@ -45,7 +45,7 @@ persistentVolume:
   mountOptions:
     - read-only
     - allow-other
-    - region eu-west-1
+    - region ${region}
     - prefix images/
   csi:
     bucketName: ${bucket_id}

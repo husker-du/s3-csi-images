@@ -33,7 +33,12 @@ output "intra_subnet_cidrs" {
   value       = module.vpc.intra_subnets_cidr_blocks
 }
 
-output "private_rtb_ids" {
+output "private_route_table_ids" {
   description = "The IDs of the route table associated to private subnets"
   value       = module.vpc.private_route_table_ids
+}
+
+output "vpce_s3_id" {
+  description = "The ID of the gateway vpc endpoint for S3 service"
+  value       = try(module.vpc_endpoints[0].vpce_s3_id, null)
 }

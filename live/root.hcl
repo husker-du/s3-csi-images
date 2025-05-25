@@ -64,7 +64,7 @@ remote_state {
 inputs = merge(
   local.region_vars.locals,
   local.env_vars.locals,
-  { 
+  {
     namespace = "demo" # Value for the null label context
   }
 )

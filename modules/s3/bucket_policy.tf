@@ -2,7 +2,9 @@
 # Bucket policy
 #######################################################
 resource "aws_s3_bucket_policy" "access_from_vpce" {
-  bucket = var.bucket_id
+  count = var.vpce_s3_id != null ? 1 : 0
+
+  bucket = module.s3_csi_bucket.s3_bucket_id
   policy = data.aws_iam_policy_document.access_from_vpce.json
 }
 
@@ -18,8 +20,8 @@ data "aws_iam_policy_document" "access_from_vpce" {
     ]
 
     resources = [
-      "${var.bucket_arn}",
-      "${var.bucket_arn}/*",
+      "${module.s3_csi_bucket.s3_bucket_arn}",
+      "${module.s3_csi_bucket.s3_bucket_arn}/*"
     ]
 
     principals {
@@ -30,7 +32,7 @@ data "aws_iam_policy_document" "access_from_vpce" {
     condition {
       test     = "StringEquals"
       variable = "aws:SourceVpce"
-      values   = [aws_vpc_endpoint.s3.id]
+      values   = [var.vpce_s3_id]
     }
   }
 }

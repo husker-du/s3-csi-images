@@ -1,5 +1,5 @@
 resource "helm_release" "s3_csi_images" {
-  name = var.s3_csi_images_release_name
+  name             = var.s3_csi_images_release_name
   chart            = var.s3_csi_images_chart
   version          = var.s3_csi_images_version
   namespace        = var.s3_csi_images_namespace
@@ -8,6 +8,7 @@ resource "helm_release" "s3_csi_images" {
 
   values = [templatefile("${var.helm_values_path}/s3-csi-images/values.yaml.tftpl", {
     bucket_id = var.s3_csi_bucket_id
+    region    = var.region
   })]
 
   depends_on = [

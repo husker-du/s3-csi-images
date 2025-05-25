@@ -127,6 +127,12 @@ variable "s3_csi_images_wait" {
   default     = false
 }
 
+variable "region" {
+  description = "AWS region where resources will be deployed"
+  type        = string
+  default     = "eu-west-1"
+}
+
 
 #############################################################
 # Helm variables

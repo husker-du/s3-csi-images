@@ -13,9 +13,7 @@ locals {
 }
 
 inputs = {
-  region = local.region_vars.locals.aws_region
-  acl    = "null"
-
-  enable_s3_vpce     = false
+  region             = local.region_vars.locals.aws_region
+  acl                = "null"
   versioning_enabled = true
 }

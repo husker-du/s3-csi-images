@@ -40,7 +40,7 @@ dependency "s3" {
   config_path = "../s3"
   mock_outputs = {
     bucket_arn = "arn:aws:s3:::s3_bucket_mock123"
-    bucket_id = "s3_bucket_mock123"
+    bucket_id  = "s3_bucket_mock123"
   }
 }
 

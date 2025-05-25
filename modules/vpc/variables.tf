@@ -51,3 +51,24 @@ variable "cluster_name" {
   type        = string
   default     = "demo"
 }
+
+##################################################
+# Interface vpc endpoints submodule
+##################################################
+variable "enable_vpc_endpoints" {
+  description = "Enable the creation of interface vpc endpoints"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_endpoints" {
+  description = "Map of interface and gateway vpc endpoints to create"
+  type = object({
+    Gateway   = optional(list(string))
+    Interface = optional(list(string))
+  })
+  default = {
+    Gateway   = []
+    Interface = []
+  }
+}

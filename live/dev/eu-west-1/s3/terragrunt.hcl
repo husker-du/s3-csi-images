@@ -28,8 +28,9 @@ terraform {
 dependency "vpc" {
   config_path = "../vpc"
   mock_outputs = {
-    vpc_id         = "vpc-mock123"
-    private_rtb_id = "rtb-mock123"
+    vpc_id                  = "vpc-mock123"
+    private_route_table_ids = ["rtb-mock123"]
+    vpce_s3_id              = "vpce-mock123"
   }
 }
 
@@ -41,6 +42,7 @@ dependency "vpc" {
 # inputs get merged with the common inputs from the root and the envcommon terragrunt.hcl
 inputs = {
   # VPC dependencies
-  vpc_id          = dependency.vpc.outputs.vpc_id
-  private_rtb_ids = dependency.vpc.outputs.private_rtb_ids
+  vpc_id                  = dependency.vpc.outputs.vpc_id
+  private_route_table_ids = dependency.vpc.outputs.private_route_table_ids
+  vpce_s3_id              = dependency.vpc.outputs.vpce_s3_id
 }
